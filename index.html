@@ -352,12 +352,8 @@ geoJsonData.features.forEach(feature => {
 
         // Info window
         marker.addListener('click', () => {
-                    const featureProperties = marker.customFeatureData;
-                    const name = featureProperties.Name || 'Name not available';
-                    const description = featureProperties.Description || 'Description not available';
-                    const content = `<b>Name:</b> ${name}<br><br>${description}`;
-                    infoWindow.setContent(content);
-                    infoWindow.open(map, marker);
+                   infoWindow.setContent(marker.getTitle());
+                    infoWindow.open(map, marker);
                 });
     }
 });
