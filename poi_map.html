@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Google Maps API v3 : KML Layer</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&libraries=geometry"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #map_container {
+            width: 100%;
+            height: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #map_canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+            flex: 1;
+            min-width: 250px;
+            padding: 0 15px;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .checkbox-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map_container">
+    <div id="map_canvas"></div>
+</div>
+
+<div class="controls">
+    <div class="control-group">
+        <h3>Select Districts</h3>
+        <div id="districts-checkboxes" class="checkbox-list">
+            <!-- Checkboxes will be dynamically generated here -->
+        </div>
+    </div>
+
+    <div class="control-group">
+        <h3>Select Associates</h3>
+        <div id="associates-checkboxes" class="checkbox-list">
+            <!-- Checkboxes will be dynamically generated here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let map;
+    let markers = [];
+
+    const geoJsonData = {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"Name": "Gurinder Singh @ Happy s/o Mahinder Singh", "Description": "Sr No.: 1<br>District: Amritsar-R<br>Village/Area Name: Village Riar, Ajnala<br>Full Address: Village Riar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.74637489999999, 31.8294172, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"Name": "Akashdeep Singh @ Akash s/o Kanwaljit Singh", "Description": "Sr No.: 2<br>District: Amritsar-R<br>Village/Area Name: Village Naag Kalan, Majitha<br>Full Address: Village Naag Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9384135, 31.7305925, 0.0]]}}, {"id": "2", "type": "Feature", "properties": {"Name": "Balwinder Singh @ Billa s/o Mukhtar Singh", "Description": "Sr No.: 3<br>District: Amritsar-R<br>Village/Area Name: Village Marri Kalan, Majitha<br>Full Address: Village Marri Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0547773, 31.7685971, 0.0]]}}, {"id": "3", "type": "Feature", "properties": {"Name": "Shamsher Singh @ Shera s/o Nanak Singh", "Description": "Sr No.: 4<br>District: Amritsar-R<br>Village/Area Name: Vill Bhaini Rajputtan, Gharinda<br>Full Address: Vill Bhaini Rajputtan, Gharinda, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6195474, 31.5219981, 0.0]]}}, {"id": "4", "type": "Feature", "properties": {"Name": "Karanbir  Singh @  Raja  s/o Lakhwinder Singh", "Description": "Sr No.: 5<br>District: Amritsar-R<br>Village/Area Name: Gujjarpura, Majhitha<br>Full Address: Gujjarpura, Majhitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0691454, 31.7901021, 0.0]]}}, {"id": "5", "type": "Feature", "properties": {"Name": "Karanbir Singh s/o Shamsher Singh", "Description": "Sr No.: 6<br>District: Amritsar-R<br>Village/Area Name: Village Wadala Kalan, Khilchian<br>Full Address: Village Wadala Kalan, Khilchian, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2318624, 31.5857854, 0.0]]}}, {"id": "6", "type": "Feature", "properties": {"Name": "Harpreet Singh @ Happy Malasyia s/o Darbara Singh", "Description": "Sr No.: 7<br>District: Amritsar-R<br>Village/Area Name: Miadi Kalan<br>Full Address: Miadi Kalan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6737095, 31.8193913, 0.0]]}}, {"id": "7", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Nirmal Singh", "Description": "Sr No.: 8<br>District: Amritsar-R<br>Village/Area Name: Vill Urdhan, Ramdas<br>Full Address: Vill Urdhan, Ramdas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.910927, 31.9653946, 0.0]}}, {"id": "8", "type": "Feature", "properties": {"Name": "Narinder Singh s/o Nanak Singh", "Description": "Sr No.: 9<br>District: Amritsar-R<br>Village/Area Name: Village Urdhan<br>Full Address: Village Urdhan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8594853, 31.87402609999999, 0.0]]}}, {"id": "9", "type": "Feature", "properties": {"Name": "Gurpinder Singh @ Lahoria s/o Harbhajan Singh", "Description": "Sr No.: 10<br>District: Amritsar-R<br>Village/Area Name: Village Bohlian, Ajnala<br>Full Address: Village Bohlian, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.7344384, 31.8219689, 0.0]]}}, {"id": "10", "type": "Feature", "properties": {"Name": "Sukhmanpreet Singh @ Jiwan s/o Sawinder Singh", "Description": "Sr No.: 11<br>District: Amritsar-R<br>Village/Area Name: Ward no-6, Beant nagar, Ajnala<br>Full Address: Ward no-6, Beant nagar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.76226609999999, 31.8432297, 0.0]]}}, {"id": "11", "type": "Feature", "properties": {"Name": "Harmanpreet Singh s/o Narinderpal Singh", "Description": "Sr No.: 12<br>District: Amritsar-R<br>Village/Area Name: Village Bal Saran, Beas<br>Full Address: Village Bal Saran, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.32006419999999, 31.54618, 0.0]}}, {"id": "12", "type": "Feature", "properties": {"Name": "Arshpreet Singh s/o Manga Singh", "Description": "Sr No.: 13<br>District: Amritsar-R<br>Village/Area Name: Village Bule Nangal, Beas<br>Full Address: Village Bule Nangal, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2624898, 31.51543449999999, 0.0]]}}, {"id": "13", "type": "Feature", "properties": {"Name": "Amanpreet Singh s/o Harbans Singh", "Description": "Sr No.: 14<br>District: Amritsar-R<br>Village/Area Name: Baba Bakala Sahib, Beas<br>Full Address: Baba Bakala Sahib, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2641785, 31.5552999, 0.0]}}, {"id": "14", "type": "Feature", "properties": {"Name": "Ramanbir  Singh  @  Fauji  s/o Jagjit Singh", "Description": "Sr No.: 15<br>District: Amritsar-R<br>Village/Area Name: Village Muchhal<br>Full Address: Village Muchhal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.1443226, 31.5698798, 0.0]]}}, {"id": "15", "type": "Feature", "properties": {"Name": "Vishaldeep Singh s/o Satnam Singh", "Description": "Sr No.: 16<br>District: Amritsar-R<br>Village/Area Name: Laharka Kathu Nangal<br>Full Address: Laharka Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0231457, 31.7324108, 0.0]}}, {"id": "16", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukh Uppal s/o Subaig Singh", "Description": "Sr No.: 17<br>District: Amritsar-R<br>Village/Area Name: Vill Leharka, Kathu Nangal<br>Full Address: Vill Leharka, Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0976147, 31.7399076, 0.0]}}, {"id": "17", "type": "Feature", "properties": {"Name": "Karandeep Singh @ Karan s/o Sukhwant Singh", "Description": "Sr No.: 18<br>District: Amritsar-R<br>Village/Area Name: Mehta<br>Full Address: Mehta, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9180824, 31.6248563, 0.0]]}}, {"id": "18", "type": "Feature", "properties": {"Name": "Gurpreet Singh s/o Sewa Singh", "Description": "Sr No.: 19<br>District: Gurdaspur<br>Village/Area Name: Kotha Tehsil Dera Baba Nanak<br>Full Address: Kotha Tehsil Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.02698529999999, 32.0261779, 0.0]}}, {"id": "19", "type": "Feature", "properties": {"Name": "Rajbeer Singh Nagra @ Raja s/o Santokh Singh", "Description": "Sr No.: 20<br>District: Gurdaspur<br>Village/Area Name: Village Nathpur, Qadian<br>Full Address: Village Nathpur, Qadian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.36307959999999, 31.818582, 0.0]]}}, {"id": "20", "type": "Feature", "properties": {"Name": "Rajvir Singh @ Jagdish, Raja, Happy, Bajja, Sehbaz s/o Jaswant Singh", "Description": "Sr No.: 21<br>District: Gurdaspur<br>Village/Area Name: Village Pabba Rali, Dera Baba Nanak<br>Full Address: Village Pabba Rali, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "21", "type": "Feature", "properties": {"Name": "Amarjit Singh @ Nikka @ Bhaiya s/o Sukhdev Singh", "Description": "Sr No.: 22<br>District: Gurdaspur<br>Village/Area Name: VPO Kotli Surat Maliyan, kotli Surat Khan<br>Full Address: VPO Kotli Surat Maliyan, kotli Surat Khan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.09250519999999, 31.9403046, 0.0]}}, {"id": "22", "type": "Feature", "properties": {"Name": "Sawinder Singh s/o Balwinder Singh", "Description": "Sr No.: 23<br>District: Gurdaspur<br>Village/Area Name: Village Ummu Nangal, Rangar Nangal<br>Full Address: Village Ummu Nangal, Rangar Nangal, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2391552, 31.71349639999999, 0.0]}}, {"id": "23", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Sawinder Singh", "Description": "Sr No.: 24<br>District: Gurdaspur<br>Village/Area Name: Village Dadu Jodh, Fatehgarh Churian<br>Full Address: Village Dadu Jodh, Fatehgarh Churian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.95740909999999, 31.878919, 0.0]]}}, {"id": "24", "type": "Feature", "properties": {"Name": "Saroop Singh @ Roop s/o Tarsem Singh", "Description": "Sr No.: 25<br>District: Gurdaspur<br>Village/Area Name: Kothe, Dera Baba Nanak<br>Full Address: Kothe, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0261701, 32.0322146, 0.0]]}}, {"id": "25", "type": "Feature", "properties": {"Name": "Parminder Singh @ Pindi s/o Nirmal Singh", "Description": "Sr No.: 26<br>District: Gurdaspur<br>Village/Area Name: Harsian<br>Full Address: Harsian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2767075, 31.854032, 0.0]]}}, {"id": "26", "type": "Feature", "properties": {"Name": "Sharanjit Singh @ Sunny s/o Saroop Singh", "Description": "Sr No.: 27<br>District: Gurdaspur<br>Village/Area Name: Village Maan, Dera Baba Nank<br>Full Address: Village Maan, Dera Baba Nank, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "27", "type": "Feature", "properties": {"Name": "Harjinder  Singh  @  Maninder Singh Bajwa, Bhollu s/o Sukhjinder Singh", "Description": "Sr No.: 28<br>District: Gurdaspur<br>Village/Area Name: Rasulpur, Sekhwan<br>Full Address: Rasulpur, Sekhwan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.3237262, 31.8543423, 0.0]]}}, {"id": "28", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukhi s/o Gurjant Singh", "Description": "Sr No.: 29<br>District: Barnala<br>Village/Area Name: Village Chanan wal,Mehal Kalan<br>Full Address: Village Chanan wal,Mehal Kalan, Barnala<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.4854472, 30.5050218, 0.0]]}}, {"id": "29", "type": "Feature", "properties": {"Name": "Amritpal Singh s/o Bahadar Singh", "Description": "Sr No.: 30<br>District: Bathinda<br>Village/Area Name: Village Bhagta Bhai ka, Dayalpura<br>Full Address: Village Bhagta Bhai ka, Dayalpura, Bathinda<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0932352, 30.4811084, 0.0]}}, {"id": "30", "type": "Feature", "properties": {"Name": "Lovepreet Singh @Vicky s/o Jasbir Singh", "Description": "Sr No.: 33<br>District: CP-Amritsar<br>Village/Area Name: Main Bazzar Subash Colony, Batala road<br>Full Address: Main Bazzar Subash Colony, Batala road, CP-Amritsar<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8918171, 31.6289818, 0.0]]}}, {"id": "31", "type": "Feature", "properties": {"Name": "Naresh @ Arjun s/o Satpal", "Description": "Sr No.: 35<br>District: Fazilka<br>Village/Area Name: Near Railway crossing gate sitto road Abohar<br>Full Address: Near Railway crossing gate sitto road Abohar, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.1949339, 30.1393478, 0.0]}}, {"id": "32", "type": "Feature", "properties": {"Name": "Gagandeep Singh @ Gaggi s/o Jaspal Singh", "Description": "Sr No.: 36<br>District: Fazilka<br>Village/Area Name: Thakur Abadi, St no. 1, Near Dhobi Ghat<br>Full Address: Thakur Abadi, St no. 1, Near Dhobi Ghat, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.0260404, 30.4055733, 0.0]}}, {"id": "33", "type": "Feature", "properties": {"Name": "Harmesh Kumar @ Kala s/o Mukhtiar Singh", "Description": "Sr No.: 38<br>District: Ferozepur<br>Village/Area Name: Village Sher Mudaar, Makhu<br>Full Address: Village Sher Mudaar, Makhu, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9764024, 31.1071528, 0.0]]}}, {"id": "34", "type": "Feature", "properties": {"Name": "Kuldeep Singh @ Laddu s/o Resham Singh", "Description": "Sr No.: 39<br>District: Ferozepur<br>Village/Area Name: VPO Kamalwala, Mallan Wala<br>Full Address: VPO Kamalwala, Mallan Wala, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.84795199999999, 31.0891593, 0.0]}}, {"id": "35", "type": "Feature", "properties": {"Name": "Kulbir Singh s/o Ajit Singh", "Description": "Sr No.: 40<br>District: Ferozepur<br>Village/Area Name: Village Palha Megha<br>Full Address: Village Palha Megha, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6356823, 31.034265, 0.0]]}}, {"id": "36", "type": "Feature", "properties": {"Name": "Surinder Singh @ happy s/o Sukhwant Singh", "Description": "Sr No.: 41<br>District: Ferozepur<br>Village/Area Name: Village Mamdhot<br>Full Address: Village Mamdhot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}}, {"id": "37", "type": "Feature", "properties": {"Name": "Vikram Singh @ Vicky s/o Raj Singh", "Description": "Sr No.: 42<br>District: Ferozepur<br>Village/Area Name: Village Fatewal Hithar,Mamdot<br>Full Address: Village Fatewal Hithar,Mamdot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}}]};
+
+    // An InfoWindow to share between markers.
+    const infoWindow = new google.maps.InfoWindow();
+
+    function initMap() {
+        // Initialize the map
+        const map_options = {
+            center: new google.maps.LatLng(31.5143, 75.9115),
+            zoom: 8
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), map_options);
+
+        // Extract unique districts and associates from the Description field
+        const districts = new Set();
+        const associates = new Set();
+        geoJsonData.features.forEach(feature => {
+            const description = feature.properties.Description;
+            const districtMatch = description.match(/District: (.+?)<br>/);
+            const associateMatch = description.match(/Associates of: (.+)/);
+
+            if (districtMatch && districtMatch[1]) {
+                districts.add(districtMatch[1]);
+            }
+            if (associateMatch && associateMatch[1]) {
+                associates.add(associateMatch[1]);
+            }
+        });
+
+        // Sort them alphabetically for a cleaner UI
+        const sortedDistricts = Array.from(districts).sort();
+        const sortedAssociates = Array.from(associates).sort();
+
+        // Dynamically create checkboxes for districts
+        const districtContainer = document.getElementById('districts-checkboxes');
+        sortedDistricts.forEach(district => {
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'district';
+            checkbox.value = district;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(district));
+            districtContainer.appendChild(label);
+        });
+
+        // Dynamically create checkboxes for associates
+        const associateContainer = document.getElementById('associates-checkboxes');
+        sortedAssociates.forEach(associate => {
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'associate';
+            checkbox.value = associate;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(associate));
+            associateContainer.appendChild(label);
+        });
+
+        // Create markers for each feature
+        geoJsonData.features.forEach(feature => {
+            let latitude, longitude;
+
+            if (feature.geometry.type === "Point") {
+                [longitude, latitude] = feature.geometry.coordinates;
+            } else if (feature.geometry.type === "MultiPoint") {
+                // For MultiPoint, we take the first point in the array
+                [longitude, latitude] = feature.geometry.coordinates[0];
+            }
+
+            if (latitude !== undefined && longitude !== undefined) {
+                const marker = new google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: feature.properties.Description
+                });
+                markers.push(marker);
+
+                // Add an info window to the marker on click
+                marker.addListener('click', () => {
+                    infoWindow.setContent(marker.getTitle());
+                    infoWindow.open(map, marker);
+                });
+            }
+        });
+
+        // Add event listeners to the checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', filterMarkers);
+        });
+
+        // Initial filtering to show all markers
+        filterMarkers();
+    }
+
+    function filterMarkers() {
+        const selectedDistricts = new Set(Array.from(document.querySelectorAll('input[name="district"]:checked')).map(cb => cb.value));
+        const selectedAssociates = new Set(Array.from(document.querySelectorAll('input[name="associate"]:checked')).map(cb => cb.value));
+
+        geoJsonData.features.forEach((feature, index) => {
+            const marker = markers[index];
+            if (!marker) return;
+
+            const description = feature.properties.Description;
+            const districtMatch = description.match(/District: (.+?)<br>/);
+            const associateMatch = description.match(/Associates of: (.+)/);
+
+            const district = districtMatch ? districtMatch[1] : null;
+            const associate = associateMatch ? associateMatch[1] : null;
+
+            const districtFilterMet = selectedDistricts.size === 0 || selectedDistricts.has(district);
+            const associateFilterMet = selectedAssociates.size === 0 || selectedAssociates.has(associate);
+            
+            // Show the marker if both criteria are met (or if no boxes are checked for a category)
+            if (districtFilterMet && associateFilterMet) {
+                marker.setMap(map);
+            } else {
+                marker.setMap(null);
+            }
+        });
+    }
+
+    // Call initMap when the window loads
+    window.onload = initMap;
+</script>
+</body>
+</html>
