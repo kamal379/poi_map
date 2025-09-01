@@ -343,7 +343,7 @@ geoJsonData.features.forEach(feature => {
         const marker = new google.maps.Marker({
             position: { lat: latitude, lng: longitude },
             map: map,
-            title: feature.properties.Description,
+            title: feature.properties.Name + "\n" + feature.properties.Description,
             icon: {
                 url: iconUrl
             }
