@@ -315,31 +315,49 @@
         });
 
         // Create markers for each feature
-        geoJsonData.features.forEach(feature => {
-            let latitude, longitude;
+        // Define colors for each associate group
+const associateColors = {
+    "Landa": "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+    "Consignment": "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+    "Default": "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+};
 
-            if (feature.geometry.type === "Point") {
-                [longitude, latitude] = feature.geometry.coordinates;
-            } else if (feature.geometry.type === "MultiPoint") {
-                // For MultiPoint, we take the first point in the array
-                [longitude, latitude] = feature.geometry.coordinates[0];
-            }
+// Create markers for each feature
+geoJsonData.features.forEach(feature => {
+    let latitude, longitude;
 
-            if (latitude !== undefined && longitude !== undefined) {
-                const marker = new google.maps.Marker({
-                    position: { lat: latitude, lng: longitude },
-                    map: map,
-                    title: feature.properties.Description
-                });
-                markers.push(marker);
+    if (feature.geometry.type === "Point") {
+        [longitude, latitude] = feature.geometry.coordinates;
+    } else if (feature.geometry.type === "MultiPoint") {
+        [longitude, latitude] = feature.geometry.coordinates[0];
+    }
 
-                // Add an info window to the marker on click
-                marker.addListener('click', () => {
-                    infoWindow.setContent(marker.getTitle());
-                    infoWindow.open(map, marker);
-                });
+    if (latitude !== undefined && longitude !== undefined) {
+        // Get associate group
+        const associateMatch = feature.properties.Description.match(/Associates of: (.+)/);
+        const associate = associateMatch ? associateMatch[1].trim() : "Default";
+
+        // Pick marker color based on associate
+        const iconUrl = associateColors[associate] || associateColors["Default"];
+
+        const marker = new google.maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            title: feature.properties.Description,
+            icon: {
+                url: iconUrl
             }
         });
+        markers.push(marker);
+
+        // Info window
+        marker.addListener('click', () => {
+            infoWindow.setContent(marker.getTitle());
+            infoWindow.open(map, marker);
+        });
+    }
+});
+
 
         // Add event listeners to the checkboxes
         document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
