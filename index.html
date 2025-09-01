@@ -96,7 +96,166 @@
     let map;
     let markers = [];
 
-    const geoJsonData = {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"Name": "Gurinder Singh @ Happy s/o Mahinder Singh", "Description": "Sr No.: 1<br>District: Amritsar-R<br>Village/Area Name: Village Riar, Ajnala<br>Full Address: Village Riar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.74637489999999, 31.8294172, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"Name": "Akashdeep Singh @ Akash s/o Kanwaljit Singh", "Description": "Sr No.: 2<br>District: Amritsar-R<br>Village/Area Name: Village Naag Kalan, Majitha<br>Full Address: Village Naag Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9384135, 31.7305925, 0.0]]}}, {"id": "2", "type": "Feature", "properties": {"Name": "Balwinder Singh @ Billa s/o Mukhtar Singh", "Description": "Sr No.: 3<br>District: Amritsar-R<br>Village/Area Name: Village Marri Kalan, Majitha<br>Full Address: Village Marri Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0547773, 31.7685971, 0.0]]}}, {"id": "3", "type": "Feature", "properties": {"Name": "Shamsher Singh @ Shera s/o Nanak Singh", "Description": "Sr No.: 4<br>District: Amritsar-R<br>Village/Area Name: Vill Bhaini Rajputtan, Gharinda<br>Full Address: Vill Bhaini Rajputtan, Gharinda, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6195474, 31.5219981, 0.0]]}}, {"id": "4", "type": "Feature", "properties": {"Name": "Karanbir  Singh @  Raja  s/o Lakhwinder Singh", "Description": "Sr No.: 5<br>District: Amritsar-R<br>Village/Area Name: Gujjarpura, Majhitha<br>Full Address: Gujjarpura, Majhitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0691454, 31.7901021, 0.0]]}}, {"id": "5", "type": "Feature", "properties": {"Name": "Karanbir Singh s/o Shamsher Singh", "Description": "Sr No.: 6<br>District: Amritsar-R<br>Village/Area Name: Village Wadala Kalan, Khilchian<br>Full Address: Village Wadala Kalan, Khilchian, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2318624, 31.5857854, 0.0]]}}, {"id": "6", "type": "Feature", "properties": {"Name": "Harpreet Singh @ Happy Malasyia s/o Darbara Singh", "Description": "Sr No.: 7<br>District: Amritsar-R<br>Village/Area Name: Miadi Kalan<br>Full Address: Miadi Kalan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6737095, 31.8193913, 0.0]]}}, {"id": "7", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Nirmal Singh", "Description": "Sr No.: 8<br>District: Amritsar-R<br>Village/Area Name: Vill Urdhan, Ramdas<br>Full Address: Vill Urdhan, Ramdas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.910927, 31.9653946, 0.0]}}, {"id": "8", "type": "Feature", "properties": {"Name": "Narinder Singh s/o Nanak Singh", "Description": "Sr No.: 9<br>District: Amritsar-R<br>Village/Area Name: Village Urdhan<br>Full Address: Village Urdhan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8594853, 31.87402609999999, 0.0]]}}, {"id": "9", "type": "Feature", "properties": {"Name": "Gurpinder Singh @ Lahoria s/o Harbhajan Singh", "Description": "Sr No.: 10<br>District: Amritsar-R<br>Village/Area Name: Village Bohlian, Ajnala<br>Full Address: Village Bohlian, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.7344384, 31.8219689, 0.0]]}}, {"id": "10", "type": "Feature", "properties": {"Name": "Sukhmanpreet Singh @ Jiwan s/o Sawinder Singh", "Description": "Sr No.: 11<br>District: Amritsar-R<br>Village/Area Name: Ward no-6, Beant nagar, Ajnala<br>Full Address: Ward no-6, Beant nagar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.76226609999999, 31.8432297, 0.0]]}}, {"id": "11", "type": "Feature", "properties": {"Name": "Harmanpreet Singh s/o Narinderpal Singh", "Description": "Sr No.: 12<br>District: Amritsar-R<br>Village/Area Name: Village Bal Saran, Beas<br>Full Address: Village Bal Saran, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.32006419999999, 31.54618, 0.0]}}, {"id": "12", "type": "Feature", "properties": {"Name": "Arshpreet Singh s/o Manga Singh", "Description": "Sr No.: 13<br>District: Amritsar-R<br>Village/Area Name: Village Bule Nangal, Beas<br>Full Address: Village Bule Nangal, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2624898, 31.51543449999999, 0.0]]}}, {"id": "13", "type": "Feature", "properties": {"Name": "Amanpreet Singh s/o Harbans Singh", "Description": "Sr No.: 14<br>District: Amritsar-R<br>Village/Area Name: Baba Bakala Sahib, Beas<br>Full Address: Baba Bakala Sahib, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2641785, 31.5552999, 0.0]}}, {"id": "14", "type": "Feature", "properties": {"Name": "Ramanbir  Singh  @  Fauji  s/o Jagjit Singh", "Description": "Sr No.: 15<br>District: Amritsar-R<br>Village/Area Name: Village Muchhal<br>Full Address: Village Muchhal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.1443226, 31.5698798, 0.0]]}}, {"id": "15", "type": "Feature", "properties": {"Name": "Vishaldeep Singh s/o Satnam Singh", "Description": "Sr No.: 16<br>District: Amritsar-R<br>Village/Area Name: Laharka Kathu Nangal<br>Full Address: Laharka Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0231457, 31.7324108, 0.0]}}, {"id": "16", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukh Uppal s/o Subaig Singh", "Description": "Sr No.: 17<br>District: Amritsar-R<br>Village/Area Name: Vill Leharka, Kathu Nangal<br>Full Address: Vill Leharka, Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0976147, 31.7399076, 0.0]}}, {"id": "17", "type": "Feature", "properties": {"Name": "Karandeep Singh @ Karan s/o Sukhwant Singh", "Description": "Sr No.: 18<br>District: Amritsar-R<br>Village/Area Name: Mehta<br>Full Address: Mehta, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9180824, 31.6248563, 0.0]]}}, {"id": "18", "type": "Feature", "properties": {"Name": "Gurpreet Singh s/o Sewa Singh", "Description": "Sr No.: 19<br>District: Gurdaspur<br>Village/Area Name: Kotha Tehsil Dera Baba Nanak<br>Full Address: Kotha Tehsil Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.02698529999999, 32.0261779, 0.0]}}, {"id": "19", "type": "Feature", "properties": {"Name": "Rajbeer Singh Nagra @ Raja s/o Santokh Singh", "Description": "Sr No.: 20<br>District: Gurdaspur<br>Village/Area Name: Village Nathpur, Qadian<br>Full Address: Village Nathpur, Qadian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.36307959999999, 31.818582, 0.0]]}}, {"id": "20", "type": "Feature", "properties": {"Name": "Rajvir Singh @ Jagdish, Raja, Happy, Bajja, Sehbaz s/o Jaswant Singh", "Description": "Sr No.: 21<br>District: Gurdaspur<br>Village/Area Name: Village Pabba Rali, Dera Baba Nanak<br>Full Address: Village Pabba Rali, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "21", "type": "Feature", "properties": {"Name": "Amarjit Singh @ Nikka @ Bhaiya s/o Sukhdev Singh", "Description": "Sr No.: 22<br>District: Gurdaspur<br>Village/Area Name: VPO Kotli Surat Maliyan, kotli Surat Khan<br>Full Address: VPO Kotli Surat Maliyan, kotli Surat Khan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.09250519999999, 31.9403046, 0.0]}}, {"id": "22", "type": "Feature", "properties": {"Name": "Sawinder Singh s/o Balwinder Singh", "Description": "Sr No.: 23<br>District: Gurdaspur<br>Village/Area Name: Village Ummu Nangal, Rangar Nangal<br>Full Address: Village Ummu Nangal, Rangar Nangal, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2391552, 31.71349639999999, 0.0]}}, {"id": "23", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Sawinder Singh", "Description": "Sr No.: 24<br>District: Gurdaspur<br>Village/Area Name: Village Dadu Jodh, Fatehgarh Churian<br>Full Address: Village Dadu Jodh, Fatehgarh Churian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.95740909999999, 31.878919, 0.0]]}}, {"id": "24", "type": "Feature", "properties": {"Name": "Saroop Singh @ Roop s/o Tarsem Singh", "Description": "Sr No.: 25<br>District: Gurdaspur<br>Village/Area Name: Kothe, Dera Baba Nanak<br>Full Address: Kothe, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0261701, 32.0322146, 0.0]]}}, {"id": "25", "type": "Feature", "properties": {"Name": "Parminder Singh @ Pindi s/o Nirmal Singh", "Description": "Sr No.: 26<br>District: Gurdaspur<br>Village/Area Name: Harsian<br>Full Address: Harsian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2767075, 31.854032, 0.0]]}}, {"id": "26", "type": "Feature", "properties": {"Name": "Sharanjit Singh @ Sunny s/o Saroop Singh", "Description": "Sr No.: 27<br>District: Gurdaspur<br>Village/Area Name: Village Maan, Dera Baba Nank<br>Full Address: Village Maan, Dera Baba Nank, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "27", "type": "Feature", "properties": {"Name": "Harjinder  Singh  @  Maninder Singh Bajwa, Bhollu s/o Sukhjinder Singh", "Description": "Sr No.: 28<br>District: Gurdaspur<br>Village/Area Name: Rasulpur, Sekhwan<br>Full Address: Rasulpur, Sekhwan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.3237262, 31.8543423, 0.0]]}}, {"id": "28", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukhi s/o Gurjant Singh", "Description": "Sr No.: 29<br>District: Barnala<br>Village/Area Name: Village Chanan wal,Mehal Kalan<br>Full Address: Village Chanan wal,Mehal Kalan, Barnala<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.4854472, 30.5050218, 0.0]]}}, {"id": "29", "type": "Feature", "properties": {"Name": "Amritpal Singh s/o Bahadar Singh", "Description": "Sr No.: 30<br>District: Bathinda<br>Village/Area Name: Village Bhagta Bhai ka, Dayalpura<br>Full Address: Village Bhagta Bhai ka, Dayalpura, Bathinda<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0932352, 30.4811084, 0.0]}}, {"id": "30", "type": "Feature", "properties": {"Name": "Lovepreet Singh @Vicky s/o Jasbir Singh", "Description": "Sr No.: 33<br>District: CP-Amritsar<br>Village/Area Name: Main Bazzar Subash Colony, Batala road<br>Full Address: Main Bazzar Subash Colony, Batala road, CP-Amritsar<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8918171, 31.6289818, 0.0]]}}, {"id": "31", "type": "Feature", "properties": {"Name": "Naresh @ Arjun s/o Satpal", "Description": "Sr No.: 35<br>District: Fazilka<br>Village/Area Name: Near Railway crossing gate sitto road Abohar<br>Full Address: Near Railway crossing gate sitto road Abohar, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.1949339, 30.1393478, 0.0]}}, {"id": "32", "type": "Feature", "properties": {"Name": "Gagandeep Singh @ Gaggi s/o Jaspal Singh", "Description": "Sr No.: 36<br>District: Fazilka<br>Village/Area Name: Thakur Abadi, St no. 1, Near Dhobi Ghat<br>Full Address: Thakur Abadi, St no. 1, Near Dhobi Ghat, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.0260404, 30.4055733, 0.0]}}, {"id": "33", "type": "Feature", "properties": {"Name": "Harmesh Kumar @ Kala s/o Mukhtiar Singh", "Description": "Sr No.: 38<br>District: Ferozepur<br>Village/Area Name: Village Sher Mudaar, Makhu<br>Full Address: Village Sher Mudaar, Makhu, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9764024, 31.1071528, 0.0]]}}, {"id": "34", "type": "Feature", "properties": {"Name": "Kuldeep Singh @ Laddu s/o Resham Singh", "Description": "Sr No.: 39<br>District: Ferozepur<br>Village/Area Name: VPO Kamalwala, Mallan Wala<br>Full Address: VPO Kamalwala, Mallan Wala, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.84795199999999, 31.0891593, 0.0]}}, {"id": "35", "type": "Feature", "properties": {"Name": "Kulbir Singh s/o Ajit Singh", "Description": "Sr No.: 40<br>District: Ferozepur<br>Village/Area Name: Village Palha Megha<br>Full Address: Village Palha Megha, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6356823, 31.034265, 0.0]]}}, {"id": "36", "type": "Feature", "properties": {"Name": "Surinder Singh @ happy s/o Sukhwant Singh", "Description": "Sr No.: 41<br>District: Ferozepur<br>Village/Area Name: Village Mamdhot<br>Full Address: Village Mamdhot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}}, {"id": "37", "type": "Feature", "properties": {"Name": "Vikram Singh @ Vicky s/o Raj Singh", "Description": "Sr No.: 42<br>District: Ferozepur<br>Village/Area Name: Village Fatewal Hithar,Mamdot<br>Full Address: Village Fatewal Hithar,Mamdot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}}]};
+    const geoJsonData = {"type": "FeatureCollection", "features": [{"id": "0", "type": "Feature", "properties": {"Name": "Gurinder Singh @ Happy s/o Mahinder Singh", "Description": "Sr No.: 1<br>District: Amritsar-R<br>Village/Area Name: Village Riar, Ajnala<br>Full Address: Village Riar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.74637489999999, 31.8294172, 0.0]}}, {"id": "1", "type": "Feature", "properties": {"Name": "Akashdeep Singh @ Akash s/o Kanwaljit Singh", "Description": "Sr No.: 2<br>District: Amritsar-R<br>Village/Area Name: Village Naag Kalan, Majitha<br>Full Address: Village Naag Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9384135, 31.7305925, 0.0]]}}, {"id": "2", "type": "Feature", "properties": {"Name": "Balwinder Singh @ Billa s/o Mukhtar Singh", "Description": "Sr No.: 3<br>District: Amritsar-R<br>Village/Area Name: Village Marri Kalan, Majitha<br>Full Address: Village Marri Kalan, Majitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0547773, 31.7685971, 0.0]]}}, {"id": "3", "type": "Feature", "properties": {"Name": "Shamsher Singh @ Shera s/o Nanak Singh", "Description": "Sr No.: 4<br>District: Amritsar-R<br>Village/Area Name: Vill Bhaini Rajputtan, Gharinda<br>Full Address: Vill Bhaini Rajputtan, Gharinda, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6195474, 31.5219981, 0.0]]}}, {"id": "4", "type": "Feature", "properties": {"Name": "Karanbir  Singh @  Raja  s/o Lakhwinder Singh", "Description": "Sr No.: 5<br>District: Amritsar-R<br>Village/Area Name: Gujjarpura, Majhitha<br>Full Address: Gujjarpura, Majhitha, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0691454, 31.7901021, 0.0]]}}, {"id": "5", "type": "Feature", "properties": {"Name": "Karanbir Singh s/o Shamsher Singh", "Description": "Sr No.: 6<br>District: Amritsar-R<br>Village/Area Name: Village Wadala Kalan, Khilchian<br>Full Address: Village Wadala Kalan, Khilchian, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2318624, 31.5857854, 0.0]]}}, {"id": "6", "type": "Feature", "properties": {"Name": "Harpreet Singh @ Happy Malasyia s/o Darbara Singh", "Description": "Sr No.: 7<br>District: Amritsar-R<br>Village/Area Name: Miadi Kalan<br>Full Address: Miadi Kalan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6737095, 31.8193913, 0.0]]}}, {"id": "7", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Nirmal Singh", "Description": "Sr No.: 8<br>District: Amritsar-R<br>Village/Area Name: Vill Urdhan, Ramdas<br>Full Address: Vill Urdhan, Ramdas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.910927, 31.9653946, 0.0]}}, {"id": "8", "type": "Feature", "properties": {"Name": "Narinder Singh s/o Nanak Singh", "Description": "Sr No.: 9<br>District: Amritsar-R<br>Village/Area Name: Village Urdhan<br>Full Address: Village Urdhan, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8594853, 31.87402609999999, 0.0]]}}, {"id": "9", "type": "Feature", "properties": {"Name": "Gurpinder Singh @ Lahoria s/o Harbhajan Singh", "Description": "Sr No.: 10<br>District: Amritsar-R<br>Village/Area Name: Village Bohlian, Ajnala<br>Full Address: Village Bohlian, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.7344384, 31.8219689, 0.0]]}}, {"id": "10", "type": "Feature", "properties": {"Name": "Sukhmanpreet Singh @ Jiwan s/o Sawinder Singh", "Description": "Sr No.: 11<br>District: Amritsar-R<br>Village/Area Name: Ward no-6, Beant nagar, Ajnala<br>Full Address: Ward no-6, Beant nagar, Ajnala, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.76226609999999, 31.8432297, 0.0]]}}, {"id": "11", "type": "Feature", "properties": {"Name": "Harmanpreet Singh s/o Narinderpal Singh", "Description": "Sr No.: 12<br>District: Amritsar-R<br>Village/Area Name: Village Bal Saran, Beas<br>Full Address: Village Bal Saran, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.32006419999999, 31.54618, 0.0]}}, {"id": "12", "type": "Feature", "properties": {"Name": "Arshpreet Singh s/o Manga Singh", "Description": "Sr No.: 13<br>District: Amritsar-R<br>Village/Area Name: Village Bule Nangal, Beas<br>Full Address: Village Bule Nangal, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2624898, 31.51543449999999, 0.0]]}}, {"id": "13", "type": "Feature", "properties": {"Name": "Amanpreet Singh s/o Harbans Singh", "Description": "Sr No.: 14<br>District: Amritsar-R<br>Village/Area Name: Baba Bakala Sahib, Beas<br>Full Address: Baba Bakala Sahib, Beas, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2641785, 31.5552999, 0.0]}}, {"id": "14", "type": "Feature", "properties": {"Name": "Ramanbir  Singh  @  Fauji  s/o Jagjit Singh", "Description": "Sr No.: 15<br>District: Amritsar-R<br>Village/Area Name: Village Muchhal<br>Full Address: Village Muchhal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.1443226, 31.5698798, 0.0]]}}, {"id": "15", "type": "Feature", "properties": {"Name": "Vishaldeep Singh s/o Satnam Singh", "Description": "Sr No.: 16<br>District: Amritsar-R<br>Village/Area Name: Laharka Kathu Nangal<br>Full Address: Laharka Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0231457, 31.7324108, 0.0]}}, {"id": "16", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukh Uppal s/o Subaig Singh", "Description": "Sr No.: 17<br>District: Amritsar-R<br>Village/Area Name: Vill Leharka, Kathu Nangal<br>Full Address: Vill Leharka, Kathu Nangal, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0976147, 31.7399076, 0.0]}}, {"id": "17", "type": "Feature", "properties": {"Name": "Karandeep Singh @ Karan s/o Sukhwant Singh", "Description": "Sr No.: 18<br>District: Amritsar-R<br>Village/Area Name: Mehta<br>Full Address: Mehta, Amritsar-R<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9180824, 31.6248563, 0.0]]}}, {"id": "18", "type": "Feature", "properties": {"Name": "Gurpreet Singh s/o Sewa Singh", "Description": "Sr No.: 19<br>District: Gurdaspur<br>Village/Area Name: Kotha Tehsil Dera Baba Nanak<br>Full Address: Kotha Tehsil Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.02698529999999, 32.0261779, 0.0]}}, {"id": "19", "type": "Feature", "properties": {"Name": "Rajbeer Singh Nagra @ Raja s/o Santokh Singh", "Description": "Sr No.: 20<br>District: Gurdaspur<br>Village/Area Name: Village Nathpur, Qadian<br>Full Address: Village Nathpur, Qadian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.36307959999999, 31.818582, 0.0]]}}, {"id": "20", "type": "Feature", "properties": {"Name": "Rajvir Singh @ Jagdish, Raja, Happy, Bajja, Sehbaz s/o Jaswant Singh", "Description": "Sr No.: 21<br>District: Gurdaspur<br>Village/Area Name: Village Pabba Rali, Dera Baba Nanak<br>Full Address: Village Pabba Rali, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "21", "type": "Feature", "properties": {"Name": "Amarjit Singh @ Nikka @ Bhaiya s/o Sukhdev Singh", "Description": "Sr No.: 22<br>District: Gurdaspur<br>Village/Area Name: VPO Kotli Surat Maliyan, kotli Surat Khan<br>Full Address: VPO Kotli Surat Maliyan, kotli Surat Khan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.09250519999999, 31.9403046, 0.0]}}, {"id": "22", "type": "Feature", "properties": {"Name": "Sawinder Singh s/o Balwinder Singh", "Description": "Sr No.: 23<br>District: Gurdaspur<br>Village/Area Name: Village Ummu Nangal, Rangar Nangal<br>Full Address: Village Ummu Nangal, Rangar Nangal, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.2391552, 31.71349639999999, 0.0]}}, {"id": "23", "type": "Feature", "properties": {"Name": "Lovepreet Singh s/o Sawinder Singh", "Description": "Sr No.: 24<br>District: Gurdaspur<br>Village/Area Name: Village Dadu Jodh, Fatehgarh Churian<br>Full Address: Village Dadu Jodh, Fatehgarh Churian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.95740909999999, 31.878919, 0.0]]}}, {"id": "24", "type": "Feature", "properties": {"Name": "Saroop Singh @ Roop s/o Tarsem Singh", "Description": "Sr No.: 25<br>District: Gurdaspur<br>Village/Area Name: Kothe, Dera Baba Nanak<br>Full Address: Kothe, Dera Baba Nanak, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0261701, 32.0322146, 0.0]]}}, {"id": "25", "type": "Feature", "properties": {"Name": "Parminder Singh @ Pindi s/o Nirmal Singh", "Description": "Sr No.: 26<br>District: Gurdaspur<br>Village/Area Name: Harsian<br>Full Address: Harsian, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.2767075, 31.854032, 0.0]]}}, {"id": "26", "type": "Feature", "properties": {"Name": "Sharanjit Singh @ Sunny s/o Saroop Singh", "Description": "Sr No.: 27<br>District: Gurdaspur<br>Village/Area Name: Village Maan, Dera Baba Nank<br>Full Address: Village Maan, Dera Baba Nank, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.0304481, 32.0321859, 0.0]]}}, {"id": "27", "type": "Feature", "properties": {"Name": "Harjinder  Singh  @  Maninder Singh Bajwa, Bhollu s/o Sukhjinder Singh", "Description": "Sr No.: 28<br>District: Gurdaspur<br>Village/Area Name: Rasulpur, Sekhwan<br>Full Address: Rasulpur, Sekhwan, Gurdaspur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.3237262, 31.8543423, 0.0]]}}, {"id": "28", "type": "Feature", "properties": {"Name": "Sukhwinder Singh @ Sukhi s/o Gurjant Singh", "Description": "Sr No.: 29<br>District: Barnala<br>Village/Area Name: Village Chanan wal,Mehal Kalan<br>Full Address: Village Chanan wal,Mehal Kalan, Barnala<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[75.4854472, 30.5050218, 0.0]]}}, {"id": "29", "type": "Feature", "properties": {"Name": "Amritpal Singh s/o Bahadar Singh", "Description": "Sr No.: 30<br>District: Bathinda<br>Village/Area Name: Village Bhagta Bhai ka, Dayalpura<br>Full Address: Village Bhagta Bhai ka, Dayalpura, Bathinda<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [75.0932352, 30.4811084, 0.0]}}, {"id": "30", "type": "Feature", "properties": {"Name": "Lovepreet Singh @Vicky s/o Jasbir Singh", "Description": "Sr No.: 33<br>District: CP-Amritsar<br>Village/Area Name: Main Bazzar Subash Colony, Batala road<br>Full Address: Main Bazzar Subash Colony, Batala road, CP-Amritsar<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.8918171, 31.6289818, 0.0]]}}, {"id": "31", "type": "Feature", "properties": {"Name": "Naresh @ Arjun s/o Satpal", "Description": "Sr No.: 35<br>District: Fazilka<br>Village/Area Name: Near Railway crossing gate sitto road Abohar<br>Full Address: Near Railway crossing gate sitto road Abohar, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.1949339, 30.1393478, 0.0]}}, {"id": "32", "type": "Feature", "properties": {"Name": "Gagandeep Singh @ Gaggi s/o Jaspal Singh", "Description": "Sr No.: 36<br>District: Fazilka<br>Village/Area Name: Thakur Abadi, St no. 1, Near Dhobi Ghat<br>Full Address: Thakur Abadi, St no. 1, Near Dhobi Ghat, Fazilka<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.0260404, 30.4055733, 0.0]}}, {"id": "33", "type": "Feature", "properties": {"Name": "Harmesh Kumar @ Kala s/o Mukhtiar Singh", "Description": "Sr No.: 38<br>District: Ferozepur<br>Village/Area Name: Village Sher Mudaar, Makhu<br>Full Address: Village Sher Mudaar, Makhu, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.9764024, 31.1071528, 0.0]]}}, {"id": "34", "type": "Feature", "properties": {"Name": "Kuldeep Singh @ Laddu s/o Resham Singh", "Description": "Sr No.: 39<br>District: Ferozepur<br>Village/Area Name: VPO Kamalwala, Mallan Wala<br>Full Address: VPO Kamalwala, Mallan Wala, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "Point", "coordinates": [74.84795199999999, 31.0891593, 0.0]}}, {"id": "35", "type": "Feature", "properties": {"Name": "Kulbir Singh s/o Ajit Singh", "Description": "Sr No.: 40<br>District: Ferozepur<br>Village/Area Name: Village Palha Megha<br>Full Address: Village Palha Megha, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.6356823, 31.034265, 0.0]]}}, {"id": "36", "type": "Feature", "properties": {"Name": "Surinder Singh @ happy s/o Sukhwant Singh", "Description": "Sr No.: 41<br>District: Ferozepur<br>Village/Area Name: Village Mamdhot<br>Full Address: Village Mamdhot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}}, {"id": "37", "type": "Feature", "properties": {"Name": "Vikram Singh @ Vicky s/o Raj Singh", "Description": "Sr No.: 42<br>District: Ferozepur<br>Village/Area Name: Village Fatewal Hithar,Mamdot<br>Full Address: Village Fatewal Hithar,Mamdot, Ferozepur<br>Associates of: Landa"}, "geometry": {"type": "MultiPoint", "coordinates": [[74.4204743, 30.87010709999999, 0.0]]}},{
+      "id": "38",
+      "type": "Feature",
+      "properties": {
+        "Name": "Lakhbir Singh @ Rode",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: WJMC+7X5, Cantonment Area, Firozpur, Punjab 152001<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.62248,
+          30.93313,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "39",
+      "type": "Feature",
+      "properties": {
+        "Name": "Pak based Harwinder Singh @ Rinda",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Patti, Punjab 143416<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.85656,
+          31.27458,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "40",
+      "type": "Feature",
+      "properties": {
+        "Name": "Gurpreet Hari Nau targeted killing case",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: 7HGR+P55, Sangrur Rd, Dhanaula, Punjab 148105<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.70058,
+          30.25527,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "41",
+      "type": "Feature",
+      "properties": {
+        "Name": "IED attack on PS Kalwan by BKI module led by Harwinder @ RInda",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Hoshiarpur Una Road, Hoshiarpur<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.94446,
+          31.52527,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "42",
+      "type": "Feature",
+      "properties": {
+        "Name": "Germany based Gurmeet Singh @ Bagga and Ranjit Singh @ Neeta, chief of KZF",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Vill. Rajoke, Tarn Taran<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.55072,
+          31.28074,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "43",
+      "type": "Feature",
+      "properties": {
+        "Name": "UK based Gurpreet Singh @ Khalsa",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Near bordering area of Sarai Amanat Khan, Distt. Amritsar-R.<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.69346,
+          31.51083,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "44",
+      "type": "Feature",
+      "properties": {
+        "Name": "HG attack at CIA Nawanshahr by BKI module",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Jagraon via Laddowal bypass.<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.46977,
+          30.80704,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "45",
+      "type": "Feature",
+      "properties": {
+        "Name": "IED attack at Ajnala, HG attacks at PP Gurbaksh Nagar :",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: Khakha Morr on Verowal road<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.09531,
+          31.42696,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "46",
+      "type": "Feature",
+      "properties": {
+        "Name": "Ludhiana Court Blast Module, December 23, 2021:",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: village Ballarwal, Amritsar<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.71322,
+          31.90619,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "47",
+      "type": "Feature",
+      "properties": {
+        "Name": "Arsh Dala module involved in HG attack at Petrol Pump, Mansa (Oct 27, 2024) :",
+        "Description": "District: nan<br>Village/Area Name: nan<br>Full Address: near Vill. Kala on Attari road (Tarn Taran)<br>Associates of: Consignment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          74.93715,
+          31.45772,
+          0.0
+        ]
+      }
+    }]};
 
     // An InfoWindow to share between markers.
     const infoWindow = new google.maps.InfoWindow();
