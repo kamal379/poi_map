@@ -343,7 +343,7 @@ geoJsonData.features.forEach(feature => {
         const marker = new google.maps.Marker({
             position: { lat: latitude, lng: longitude },
             map: map,
-            title: feature.properties.Name + "\n" + feature.properties.Description,
+            title: feature.properties.Name,
             icon: {
                 url: iconUrl
             }
@@ -352,8 +352,9 @@ geoJsonData.features.forEach(feature => {
 
         // Info window
         marker.addListener('click', () => {
-                   infoWindow.setContent(marker.getTitle());
-                    infoWindow.open(map, marker);
+            const content = `<h3>${feature.properties.Name}</h3><p>${feature.properties.Description}</p>`;
+            infoWindow.setContent(content);
+            infoWindow.open(map, marker);
                 });
     }
 });
