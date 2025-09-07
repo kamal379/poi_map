@@ -1600,31 +1600,38 @@ const associateColors = {
     }
 
     function filterMarkers() {
-        const selectedDistricts = new Set(Array.from(document.querySelectorAll('input[name="district"]:checked')).map(cb => cb.value));
-        const selectedAssociates = new Set(Array.from(document.querySelectorAll('input[name="associate"]:checked')).map(cb => cb.value));
+    const selectedDistricts = new Set(Array.from(document.querySelectorAll('input[name="district"]:checked')).map(cb => cb.value));
+    const selectedAssociates = new Set(Array.from(document.querySelectorAll('input[name="associate"]:checked')).map(cb => cb.value));
 
-        geoJsonData.features.forEach((feature, index) => {
-            const marker = markers[index];
-            if (!marker) return;
+    geoJsonData.features.forEach((feature, index) => {
+        const marker = markers[index];
+        if (!marker) return;
 
-            const description = feature.properties.Description;
-            const districtMatch = description.match(/District: (.+?)<br>/);
-            const associateMatch = description.match(/Associates of: (.+)/);
+        // Check if feature.properties and feature.properties.Description exist
+        if (!feature.properties || !feature.properties.Description) {
+            // If the properties are missing, hide the marker or handle as needed
+            marker.setMap(null);
+            return;
+        }
 
-            const district = districtMatch ? districtMatch[1] : null;
-            const associate = associateMatch ? associateMatch[1] : null;
+        const description = feature.properties.Description;
+        const districtMatch = description.match(/District: (.+?)<br>/);
+        const associateMatch = description.match(/Associates of: (.+)/);
 
-            const districtFilterMet = selectedDistricts.size === 0 || selectedDistricts.has(district);
-            const associateFilterMet = selectedAssociates.size === 0 || selectedAssociates.has(associate);
-            
-            // Show the marker if both criteria are met (or if no boxes are checked for a category)
-            if (districtFilterMet && associateFilterMet) {
-                marker.setMap(map);
-            } else {
-                marker.setMap(null);
-            }
-        });
-    }
+        const district = districtMatch ? districtMatch[1] : null;
+        const associate = associateMatch ? associateMatch[1] : null;
+        
+        const districtFilterMet = selectedDistricts.size === 0 || selectedDistricts.has(district);
+        const associateFilterMet = selectedAssociates.size === 0 || selectedAssociates.has(associate);
+
+        // Show the marker if both criteria are met (or if no boxes are checked for a category)
+        if (districtFilterMet && associateFilterMet) {
+            marker.setMap(map);
+        } else {
+            marker.setMap(null);
+        }
+    });
+}
 
     // Call initMap when the window loads
     window.onload = initMap;
