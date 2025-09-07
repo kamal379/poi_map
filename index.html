@@ -1607,9 +1607,8 @@ const associateColors = {
         const marker = markers[index];
         if (!marker) return;
 
-        // Check if feature.properties and feature.properties.Description exist
+        // Safely access properties, as previously recommended
         if (!feature.properties || !feature.properties.Description) {
-            // If the properties are missing, hide the marker or handle as needed
             marker.setMap(null);
             return;
         }
@@ -1618,9 +1617,9 @@ const associateColors = {
         const districtMatch = description.match(/District: (.+?)<br>/);
         const associateMatch = description.match(/Associates of: (.+)/);
 
-        const district = districtMatch ? districtMatch[1] : null;
-        const associate = associateMatch ? associateMatch[1] : null;
-        
+        const district = districtMatch ? districtMatch[1].trim() : null; // Add .trim()
+        const associate = associateMatch ? associateMatch[1].trim() : null; // Add .trim()
+
         const districtFilterMet = selectedDistricts.size === 0 || selectedDistricts.has(district);
         const associateFilterMet = selectedAssociates.size === 0 || selectedAssociates.has(associate);
 
