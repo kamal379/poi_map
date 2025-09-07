@@ -80,45 +80,21 @@
     <div class="control-group">
         <h3>Select Districts</h3>
         <div id="districts-checkboxes" class="checkbox-list">
-            </div>
+            <!-- Checkboxes will be dynamically generated here -->
+        </div>
     </div>
 
     <div class="control-group">
         <h3>Select Associates</h3>
         <div id="associates-checkboxes" class="checkbox-list">
-            </div>
+            <!-- Checkboxes will be dynamically generated here -->
+        </div>
     </div>
 </div>
 
 <script>
     let map;
     let markers = [];
-
-    // Color mapping for each associate group
-    const associateColors = {
-        'Arsh Dala': '#FF5733', // Bright Orange-Red
-        'Rinda': '#337DFF', // Vibrant Blue
-        'Nishan Singh Jourian': '#1ABC9C', // Teal
-        'Jeevan Fauji': '#FFC300', // Amber
-        'Honey': '#8E44AD', // Purple
-        'Baggi @ Manu Agwan': '#E74C3C', // Coral Red
-        'Billa': '#2ECC71', // Emerald Green
-        'Landa': '#F1C40F', // Yellow
-        'Jaggu Bhagwanpuria': '#3498DB' // Sky Blue
-    };
-
-    // Function to create a custom marker icon based on color
-    function createColoredIcon(color) {
-        return {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: color,
-            fillOpacity: 1,
-            strokeColor: '#000',
-            strokeOpacity: 0.8,
-            strokeWeight: 1.5,
-            scale: 7
-        };
-    }
 
     const geoJsonData = {
 "type": "FeatureCollection",
@@ -1508,114 +1484,149 @@
 { "type": "Feature", "properties": { "Name": "Amritpal Singh   s/o Paramjit Singh", "Description": "Sr No.: 615<br>District: Tarn Taran<br>Village/Area Name: Khakh <br>Full Address: Khakh , Tarn Taran.<br>Associates of:  Arsh Dala" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 75.0990746, 31.518493, 0.0 ] ] } },
 { "type": "Feature", "properties": { "Name": "Saidul Ameen  s/o Sahid Anwar", "Description": "Sr No.: 1052<br>District: Uttar Pardesh<br>Village/Area Name: Mohalla Katra Bakhtawar Singh, Amroha<br>Full Address: Mohalla Katra Bakhtawar Singh, Amroha, Uttar Pardesh<br>Associates of: Kulbeer Singh Sidhu" }, "geometry": { "type": "Point", "coordinates": [ 78.47182, 28.9043105, 0.0 ] } }
 ]
+}
+;
+
+    // An InfoWindow to share between markers.
+    const infoWindow = new google.maps.InfoWindow();
+
+    function initMap() {
+        // Initialize the map
+        const map_options = {
+            center: new google.maps.LatLng(31.5143, 75.9115),
+            zoom: 8
+        };
+        map = new google.maps.Map(document.getElementById("map_canvas"), map_options);
+
+        // Extract unique districts and associates from the Description field
+        const districts = new Set();
+        const associates = new Set();
+        geoJsonData.features.forEach(feature => {
+            const description = feature.properties.Description;
+            const districtMatch = description.match(/District: (.+?)<br>/);
+            const associateMatch = description.match(/Associates of: (.+)/);
+
+            if (districtMatch && districtMatch[1]) {
+                districts.add(districtMatch[1].trim()); // Added .trim() to handle whitespace
+            }
+            if (associateMatch && associateMatch[1]) {
+                associates.add(associateMatch[1].trim()); // Added .trim()
+            }
+        });
+
+        // Sort them alphabetically for a cleaner UI
+        const sortedDistricts = Array.from(districts).sort();
+        const sortedAssociates = Array.from(associates).sort();
+
+        // Dynamically create checkboxes for districts
+        const districtContainer = document.getElementById('districts-checkboxes');
+        sortedDistricts.forEach(district => {
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'district';
+            checkbox.value = district;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(district));
+            districtContainer.appendChild(label);
+        });
+
+        // Dynamically create checkboxes for associates
+        const associateContainer = document.getElementById('associates-checkboxes');
+        sortedAssociates.forEach(associate => {
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'associate';
+            checkbox.value = associate;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(associate));
+            associateContainer.appendChild(label);
+        });
+
+const associateColors = {
+    "Landa": "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+    "Consignment": "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+    "Default": "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
 };
 
-    const districts = [...new Set(geoJsonData.features.map(f => f.properties.District).filter(Boolean))];
-    const associates = [...new Set(geoJsonData.features.map(f => f.properties['Associates of']).filter(Boolean))];
+        // Create markers for each feature
+        geoJsonData.features.forEach(feature => {
+            let latitude, longitude;
 
-    function initMap() {
-        const center = new google.maps.LatLng(31.5, 75.5);
-        const mapOptions = {
-            zoom: 9,
-            center: center,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+            if (feature.geometry.type === "Point") {
+                [longitude, latitude] = feature.geometry.coordinates;
+            } else if (feature.geometry.type === "MultiPoint") {
+                // For MultiPoint, we take the first point in the array
+                if (feature.geometry.coordinates && feature.geometry.coordinates.length > 0) {
+                    [longitude, latitude] = feature.geometry.coordinates[0];
+                }
+            }
 
-        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-        generateCheckboxes('districts-checkboxes', districts, 'district');
-        generateCheckboxes('associates-checkboxes', associates, 'associate');
-
-        // Initial marker creation
-        createMarkers(geoJsonData.features);
-    }
-
-    function generateCheckboxes(containerId, data, type) {
-        const container = document.getElementById(containerId);
-        data.forEach(item => {
-            if (item) {
-                const label = document.createElement('label');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = item;
-                checkbox.name = type;
-                checkbox.checked = true; // All checkboxes checked by default
-                checkbox.addEventListener('change', updateMap);
-                label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(item));
-                container.appendChild(label);
+            if (latitude !== undefined && longitude !== undefined) {
+      const associateMatch = feature.properties.Description.match(/Associates of: (.+)/);
+      const associate = associateMatch ? associateMatch[1].trim() : "Default";
+      const iconUrl = associateColors[associate] || associateColors["Default"];
+                const marker = new google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: feature.properties.Description,
+                    icon: {
+                url: iconUrl
             }
-        });
-    }
+                });
+                
+                // Attach the feature data directly to the marker object
+                marker.customFeatureData = feature.properties;
+                
+                markers.push(marker);
 
-    function createMarkers(features) {
-        markers.forEach(marker => marker.setMap(null));
-        markers = [];
+                // Add an info window to the marker on click
+                marker.addListener('click', () => {
+                    infoWindow.setContent(marker.getTitle());
+                    infoWindow.open(map, marker);
+                });
+            }
+        });
 
-        features.forEach(feature => {
-            if (feature.geometry && feature.geometry.coordinates) {
-                const coordinates = feature.geometry.coordinates;
-                let position;
+        // Add event listeners to the checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', filterMarkers);
+        });
 
-                if (feature.geometry.type === "Point") {
-                    position = new google.maps.LatLng(coordinates[1], coordinates[0]);
-                } else if (feature.geometry.type === "MultiPoint" && coordinates.length > 0) {
-                    position = new google.maps.LatLng(coordinates[0][1], coordinates[0][0]);
-                } else {
-                    return;
-                }
+        // Initial filtering to show all markers
+        filterMarkers();
+    }
 
-                const associateName = feature.properties['Associates of']?.trim();
-                const markerColor = associateColors[associateName] || '#000000'; // Default to black if no color is found
+    function filterMarkers() {
+        const selectedDistricts = new Set(Array.from(document.querySelectorAll('input[name="district"]:checked')).map(cb => cb.value));
+        const selectedAssociates = new Set(Array.from(document.querySelectorAll('input[name="associate"]:checked')).map(cb => cb.value));
 
-                const icon = createColoredIcon(markerColor);
+        markers.forEach(marker => {
+            // Access the feature data directly from the marker object
+            const description = marker.customFeatureData.Description;
+            const districtMatch = description.match(/District: (.+?)<br>/);
+            const associateMatch = description.match(/Associates of: (.+)/);
 
-                const marker = new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    title: feature.properties.Name,
-                    icon: icon,
-                    metadata: {
-                        district: feature.properties.District,
-                        associate: associateName
-                    }
-                });
+            const district = districtMatch ? districtMatch[1].trim() : null;
+            const associate = associateMatch ? associateMatch[1].trim() : null;
 
-                const infoContent = `
-                    <h4>${feature.properties.Name}</h4>
-                    <p><strong>District:</strong> ${feature.properties.District}</p>
-                    <p><strong>Associates of:</strong> ${feature.properties['Associates of']}</p>
-                    <p>${feature.properties.Description}</p>
-                `;
+            // If no district is selected, it's a "show all" for that category.
+            // Otherwise, check if the marker's district is in the selected set.
+            const districtFilterMet = selectedDistricts.size === 0 || selectedDistricts.has(district);
+            const associateFilterMet = selectedAssociates.size === 0 || selectedAssociates.has(associate);
+            
+            // Show the marker if both criteria are met (or if no boxes are checked for a category)
+            if (districtFilterMet && associateFilterMet) {
+                marker.setMap(map);
+            } else {
+                marker.setMap(null);
+            }
+        });
+    }
 
-                const infoWindow = new google.maps.InfoWindow({
-                    content: infoContent
-                });
-
-                marker.addListener("click", () => {
-                    infoWindow.open({
-                        anchor: marker,
-                        map,
-                    });
-                });
-
-                markers.push(marker);
-            }
-        });
-    }
-
-    function updateMap() {
-        const selectedDistricts = Array.from(document.querySelectorAll('#districts-checkboxes input:checked')).map(cb => cb.value);
-        const selectedAssociates = Array.from(document.querySelectorAll('#associates-checkboxes input:checked')).map(cb => cb.value);
-
-        markers.forEach(marker => {
-            const isDistrictVisible = selectedDistricts.includes(marker.metadata.district);
-            const isAssociateVisible = selectedAssociates.includes(marker.metadata.associate);
-            marker.setVisible(isDistrictVisible && isAssociateVisible);
-        });
-    }
-
-    $(document).ready(initMap);
+    // Call initMap when the window loads
+    window.onload = initMap;
 </script>
 </body>
 </html>
