@@ -1598,7 +1598,8 @@ const infoWindow = new google.maps.InfoWindow();
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
     });
-
+            }
+        });
     // This part should be outside the `if` block, but the placement here
     // doesn't cause a functional error since it's only called once.
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
