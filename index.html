@@ -1574,7 +1574,7 @@ const infoWindow = new google.maps.InfoWindow();
                 const marker = new google.maps.Marker({
                     position: { lat: latitude, lng: longitude },
                     map: map,
-                    title: feature.properties.Description,
+                    title: feature.properties.Name,
                     icon: { url: iconUrl } // 2. Assign the icon URL here
                 });
     
@@ -1583,7 +1583,8 @@ const infoWindow = new google.maps.InfoWindow();
     
                 // Add an info window to the marker on click
                 marker.addListener('click', () => {
-                    infoWindow.setContent(marker.getTitle());
+                    const content = `<h3>${feature.properties.Name}</h3><p>${feature.properties.Description}</p>`;
+                    infoWindow.setContent(content);
                     infoWindow.open(map, marker);
                 });
             }
