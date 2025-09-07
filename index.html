@@ -1582,11 +1582,19 @@ const infoWindow = new google.maps.InfoWindow();
                 markers.push(marker);
     
                 // Add an info window to the marker on click
-                marker.addListener('click', () => {
-                    const content = `<h3>${feature.properties.Name}</h3><p>${feature.properties.Description}</p>`;
-                    infoWindow.setContent(content);
-                    infoWindow.open(map, marker);
-                });
+                const featureData = marker.customFeatureData;
+
+    // Create the content string for the info window
+                let contentString = `
+                    <div style="font-family: sans-serif; line-height: 1.5;">
+                        <b>Name:</b> ${featureData.Name}<br>
+                        ${featureData.Description}
+                    </div>
+                `;
+            
+                // Set the content and open the info window
+                infoWindow.setContent(contentString);
+                infoWindow.open(map, marker);
             }
         });
     
