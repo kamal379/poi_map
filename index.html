@@ -1566,48 +1566,46 @@ const infoWindow = new google.maps.InfoWindow();
             }
     
             if (latitude !== undefined && longitude !== undefined) {
-                const description = feature.properties.Description;
-                const associateMatch = description.match(/Associates of: (.+)/);
-                const associate = associateMatch ? associateMatch[1].trim() : 'Default';
-                const iconUrl = associateColors[associate] || 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'; // Use a default icon if not found
-    
-                const marker = new google.maps.Marker({
-                    position: { lat: latitude, lng: longitude },
-                    map: map,
-                    title: feature.properties.Name,
-                    icon: { url: iconUrl } // 2. Assign the icon URL here
-                });
-    
-                marker.customFeatureData = feature.properties;
-                markers.push(marker);
-    
-                // Add an info window to the marker on click
-                const featureData = marker.customFeatureData;
+    const description = feature.properties.Description;
+    const associateMatch = description.match(/Associates of: (.+)/);
+    const associate = associateMatch ? associateMatch[1].trim() : 'Default';
+    const iconUrl = associateColors[associate] || 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
 
-               marker.addListener('click', () => {
-                // Get the custom feature data we attached to the marker
-                const featureData = marker.customFeatureData;
-            
-                // Create the content string for the info window
-                let contentString = `
-                    <div style="font-family: sans-serif; line-height: 1.5;">
-                        <b>Name:</b> ${featureData.Name}<br>
-                        ${featureData.Description}
-                    </div>
-                `;
-            
-                // Set the content and open the info window
-                infoWindow.setContent(contentString);
-                infoWindow.open(map, marker);
-            });
-    
-        // Add event listeners to the checkboxes
-        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', filterMarkers);
-        });
-    
-        // Initial filtering to show all markers
-        filterMarkers();
+    const marker = new google.maps.Marker({
+        position: { lat: latitude, lng: longitude },
+        map: map,
+        title: feature.properties.Name,
+        icon: { url: iconUrl }
+    });
+
+    marker.customFeatureData = feature.properties;
+    markers.push(marker);
+
+    // Add an info window to the marker on click
+    marker.addListener('click', () => {
+        // Get the custom feature data we attached to the marker
+        const featureData = marker.customFeatureData;
+
+        // Create the content string for the info window
+        let contentString = `
+            <div style="font-family: sans-serif; line-height: 1.5;">
+                <b>Name:</b> ${featureData.Name}<br>
+                ${featureData.Description}
+            </div>
+        `;
+
+        // Set the content and open the info window
+        infoWindow.setContent(contentString);
+        infoWindow.open(map, marker);
+    });
+
+    // This part should be outside the `if` block, but the placement here
+    // doesn't cause a functional error since it's only called once.
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', filterMarkers);
+    });
+    filterMarkers();
+
     }
     
     function filterMarkers() {
